@@ -1,0 +1,48 @@
+/*
+Write your variables here. All available variables can be
+found in element-ui/packages/theme-chalk/src/common/var.scss.
+For example, to overwrite the theme color:
+*/
+
+$--color-primary: red;
+//$--color-primary: teal;
+/* icon font path, required */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+//背景颜色
+$cbe--bg-color-header:#4296D2; //头部颜色
+$cbe--bg-color-nav:rgba(36,55,89,1); //左侧导航颜色
+
+//字体颜色
+$cbe--text-color-primary:#4F5050 ; //主要字体颜色
+$cbe--text-color-white:#ffffff; //白色
+$cbe--text-nav-title:#B2DAFF; //导航一级目录文字颜色
+$cbe--text-nav-ctx:#F2F2F2; //导航二级目录文字颜色
+
+//鼠标经过，聚焦动作
+$cbe--bg-focus:rgba(94,160,212,0.2);
+//$cbe--bg-focus:rgba(94,160,212,0.2);
+
+
+//字号大小
+$cbe--font-primary:14px;
+$cbe--font-sencond:16px;
+
+//图标颜色
+$cbe--icon-nav:#63ABDD;//导航图标颜色
+
+//border颜色
+$cbe--nav-color:rgba(217, 218, 223, 0.51);
+
+
+
+
+@import "~element-ui/packages/theme-chalk/src/index";
+html,body,#app,.el-container{
+  /*设置内部填充为0，几个布局元素之间没有间距*/
+  padding: 0px;
+  /*外部间距也是如此设置*/
+  margin: 0px;
+  /*统一设置高度为100%*/
+  height: 100%;
+}
