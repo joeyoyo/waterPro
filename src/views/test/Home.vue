@@ -20,15 +20,18 @@
 
     </el-header>
     <el-container>
-      <el-aside>
-        <el-menu :default-openeds="['1', '3']">
-          <el-submenu index="1">
-            <template slot="title" class="nav-title"><i class="el-icon-message nav-icon"></i>测试功能</template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1" class="nav-content"> <i class="el-icon-star-on nav-icon-sub"></i>抄表 </el-menu-item>
-              <el-menu-item index="1-2" class="nav-content"> <i class="el-icon-star-on nav-icon-sub"></i>阀门控制</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+      <el-aside :class="collapsed?'menu-collapsed':'menu-expanded'">
+        <el-menu :default-active="$route.path"  unique-opened router v-show="!collapsed">
+          <div v-for="(item,index) in $router.options.routes" :key="index">
+            <el-submenu>
+              <template slot="title" class="nav-title"><i class="el-icon-message nav-icon"></i>{{item.name}}</template>
+              <el-menu-item-group>
+                <el-menu-item class="nav-content" v-for="child in item.children" :index="child.path" :key="child.path"><i class="el-icon-star-on nav-icon-sub"></i>{{child.name}}</el-menu-item>
+                <!--<el-menu-item index="1-1" class="nav-content" > <i class="el-icon-star-on nav-icon-sub"></i>抄表 </el-menu-item>-->
+                <!--<el-menu-item index="1-2" class="nav-content"> <i class="el-icon-star-on nav-icon-sub"></i>阀门控制</el-menu-item>-->
+              </el-menu-item-group>
+            </el-submenu>
+          </div>
           <el-submenu index="2">
             <template slot="title"><i class="el-icon-menu nav-icon"></i>测试功能</template>
             <el-menu-item-group>
@@ -45,7 +48,12 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main class="main">
+        <router-view></router-view>
+
+
+
+      </el-main>
     </el-container>
   </el-container>
 
@@ -59,6 +67,47 @@ export default {
   name: "Home",
   components: {
     // HelloWorld
+  },
+  data() {
+    return {
+      sysName:'VUEADMIN',
+      collapsed:false,
+      sysUserName: '',
+      sysUserAvatar: '',
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      }
+
+    }
+  },
+  methods: {
+    //折叠导航栏
+    collapse:function(){
+      this.collapsed=!this.collapsed;
+    },
+    showMenu(i,status){
+      this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-'+i)[0].style.display=status?'block':'none';
+    },
+    // toggleSelection(rows) {
+    //   if (rows) {
+    //     rows.forEach(row => {
+    //       this.$refs.multipleTable.toggleRowSelection(row);
+    //     });
+    //   } else {
+    //     this.$refs.multipleTable.clearSelection();
+    //   }
+    // },
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      console.log(val)
+    }
   }
 };
 </script>
@@ -145,14 +194,14 @@ export default {
         font-size: 14px;
       }
     }
-    .el-submenu__title:hover, .el-submenu__title:focus {
-      background:rgba(94,160,212,0.2);
-      color: #ffffff;
-    }
-    .el-menu-item:hover, .el-menu-item:focus {
-      background:rgba(94,160,212,0.2);
-      color: #ffffff ;
-    }
+    /*.el-submenu__title:hover, .el-submenu__title:focus {*/
+      /*background:rgba(94,160,212,0.2);*/
+      /*color: #ffffff;*/
+    /*}*/
+    /*.el-menu-item:hover, .el-menu-item:focus {*/
+      /*background:rgba(94,160,212,0.2);*/
+      /*color: #ffffff ;*/
+    /*}*/
 
     .el-menu-item-group {
       border: none;
@@ -160,11 +209,74 @@ export default {
     }
   }
 
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
+  .main {
+    background-color: #F5F7FC;
+    padding: 20px 0 0 20px !important;
+    .main-section{
+      box-shadow:0px 2px 2px 0px rgba(4,4,4,0.09);
+      height: 100%;
+      background: #fff;
+      margin: 0;
+      .main-breadcrumb{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 20px;
+        border-bottom: 1px solid #CECECE;
+      }
+      .toolbar{
+        padding: 20px 0 0 20px;
+        text-align: left;
+        .mian-txt{
+          margin: 0 10px;
+        }
+        .main-btn-primary,.main-btn-excel{
+          background:#EFF0F0;
+          border:1px solid #DDDDDD;
+          border-radius:3px;
+          color: #323232;
+        }
+        .main-btn-find{
+          background:#4790D0;
+          border:1px solid #4B82DE;
+          border-radius:3px;
+          color: #ffffff;
+        }
+        .main-btn-excel:hover, .main-btn-excel:focus{
+          background:#EFF0F0;
+          border:1px solid #DDDDDD;
+          border-radius:3px;
+          color:#323232;
+        }
+        .main-btn-primary:hover,.main-btn-primary:focus{
+          background:#43D7AE;
+          color: #FFFFFF;
+          border-radius:3px;
+
+        }
+        
+        .main-user .el-form-item__content{
+          display: flex;
+          .mian-user-input{
+            width:143px;
+            height:35px;
+          }
+        }
+        .main-time{
+          display: flex;
+          .block .el-input__inner{
+            /*width:200px;*/
+            /*height:35px;*/
+            /*border:1px solid rgba(227, 227, 227, 1);*/
+            /*border-radius:2px;*/
+
+          }
+
+
+        }
+      }
+
+    }
   }
 
   /*body > .el-container {*/
